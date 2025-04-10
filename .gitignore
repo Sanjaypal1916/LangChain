@@ -1,0 +1,19 @@
+# Virtual environment folders
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variable files
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# VSCode settings
+.vscode/
+
+# Windows-specific
+Thumbs.db
+Desktop.ini
