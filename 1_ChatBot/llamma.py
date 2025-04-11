@@ -1,4 +1,4 @@
-from langchain_openai import ChatOpenAI
+from langchain_community.llms import Ollama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
@@ -7,9 +7,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-# api keys
 
-os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
 ## Langmith tracking
 os.environ["LANGCHAIN_TRACING_V2"]="true"
 os.environ["LANGCHAIN_API_KEY"]=os.getenv("LANGSMITH_API_KEY")
@@ -20,7 +18,7 @@ prompt = ChatPromptTemplate.from_messages([
     ("user", "Question : {question}")
 ])
 
-llm = ChatOpenAI(model = "gpt-3.5-turbo", temperature = 0.7)
+llm = Ollama(model ="llama2", temperature = 0.7)
 outparser = StrOutputParser()
 chain = prompt|llm|outparser
 
