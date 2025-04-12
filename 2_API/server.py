@@ -1,12 +1,13 @@
 from fastapi import FastAPI
-from langchain_community_llms import Ollama
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-import streamlit as st
-import os 
-import dotenv import load_dotenv
-
+from langchain.prompts import ChatPromptTemplate
+from langchain.chat_models import ChatOpenAI
+from langserve import add_routes
+import uvicorn
+import os
+from langchain_community.llms import Ollama
+from dotenv import load_dotenv
 load_dotenv()
+from langchain_core.output_parsers import StrOutputParser
 
 ## Langmith tracking
 os.environ["LANGCHAIN_TRACING_V2"]="true"
@@ -19,19 +20,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", "your name is aira and youre an AI code assitant."),
-        ("user", "QUestion":{question})
-    ]
-)
+prompt = ChatPromptTemplate.from_messages("user", "QUestion : {question}")
 
-llm = Ollama(model="llama2", tempreture=0.7)
+llm = Ollama(model="llama2")
 output = StrOutputParser()
 chain = prompt|llm|output
 
 add_routes(
     app,
-    chain,
+    prompt|llm,
     path="/ollama/bot"
 )
+
+if __name__ == "__main__":
+    uvicorn.run(app, host= "localhost", port = 8080)
