@@ -7,3 +7,6 @@ langserve
 uvicorn
 fastapi
 requests
+ipykernel
+lancedb
+faiss-cpu
