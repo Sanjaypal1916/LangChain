@@ -12,3 +12,4 @@ lancedb
 faiss-cpu
 wikipedia
 arxiv
+langchain_groq
