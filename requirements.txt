@@ -10,3 +10,5 @@ requests
 ipykernel
 lancedb
 faiss-cpu
+wikipedia
+arxiv
