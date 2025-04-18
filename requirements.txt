@@ -14,3 +14,4 @@ wikipedia
 arxiv
 langchain_groq
 sentence-transformers
+langchain_google_genai
