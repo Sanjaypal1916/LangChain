@@ -72,19 +72,26 @@ if input_prompt and st.button("dochain"):
             st.write("--------------------------------")
 
 if input_prompt and st.button("retrivalQA"):
+
+    QA = load_qa_chain(
+        llm=model, 
+        chain_type="stuff", 
+        prompt = prompt_QA
+    )
+
+
+
     retriever = st.session_state.vectors.as_retriever()
-    retrive = RetrievalQA( llm=model,
-    chain_type="stuff",
-    retriever=retriever,
-    return_source_documents=True,
-    chain_type_kwargs={"prompt":prompt_QA}
+    retrive = RetrievalQA( combine_documents_chain= QA,
+        retriever = retriever, 
+        return_source_documents=True
     )
     ans = retrive.invoke({"query": input_prompt})
     ans["result"]
 
     with st.expander("Document Similarity Search"):
         # Find the relevant chunks
-        for i, doc in enumerate(response["context"]):
+        for i, doc in enumerate(ans["source_documents"]):
             st.write(doc.page_content)
             st.write("--------------------------------")
 
